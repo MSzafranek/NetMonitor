@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Network Monitor</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.js"></script>
+</head>
+<body>
+    <h1>Network Statistics</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Target</th>
+                <th>Average Response Time</th>
+                <th>Minimum Response Time</th>
+                <th>Maximum Response Time</th>
+            </tr>
+        </thead>
+        <tbody id="stats-table">
+        </tbody>
+    </table>
+
+    <script>
+        const socket = io();
+        socket.on("update_stats", (stats) => {
+            const table = document.getElementById("stats-table");
+            table.innerHTML = "";
+            stats.forEach(stat => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${stat.target}</td>
+                    <td>${stat.avg_time.toFixed(2)} ms</td>
+                    <td>${stat.min_time.toFixed(2)} ms</td>
+                    <td>${stat.max_time.toFixed(2)} ms</td>
+                `;
+                table.appendChild(row);
+            });
+        });
+    </script>
+</body>
+</html>
