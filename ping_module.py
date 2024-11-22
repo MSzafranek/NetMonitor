@@ -1,7 +1,7 @@
 from ping3 import ping
 
 def ping_addresses():
-    targets = {"internet": "8.8.8.8", "gateway": "192.168.1.1"}
+    targets = {"internet": "8.8.8.8", "gateway": " 192.168.0.1"}
     results = {}
 
     for target_name, address in targets.items():
