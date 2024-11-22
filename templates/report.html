@@ -2,40 +2,79 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Network Monitor</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Ping Report</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
 </head>
 <body>
-    <h1>Network Statistics</h1>
-    <table border="1">
+    <h1>Network Ping Report</h1>
+    <table>
         <thead>
             <tr>
+                <th>Timestamp</th>
                 <th>Target</th>
-                <th>Average Response Time</th>
-                <th>Minimum Response Time</th>
-                <th>Maximum Response Time</th>
+                <th>Response Time (ms)</th>
             </tr>
         </thead>
-        <tbody id="stats-table">
-        </tbody>
+        <tbody id="ping-table-body">
+    <tr>
+        <td>192.168.1.1</td>
+        <td>192.168.0.1</td>
+        <td>1.23 ms</td>
+    </tr>
+    <tr>
+        <td>8.8.8.8</td>
+        <td>Google DNS</td>
+        <td>23.45 ms</td>
+    </tr>
+</tbody>
+
     </table>
 
     <script>
-        const socket = io();
-        socket.on("update_stats", (stats) => {
-            const table = document.getElementById("stats-table");
-            table.innerHTML = "";
-            stats.forEach(stat => {
-                const row = document.createElement("tr");
+        async function fetchPingData() {
+            try {
+                const response = await fetch('/api/stats');
+                const data = await response.json();
+                updateTable(data.ping_data);
+            } catch (error) {
+                console.error('Błąd podczas pobierania danych:', error);
+            }
+        }
+
+        // Funkcja do aktualizowania tabeli
+        function updateTable(pingData) {
+            const tableBody = document.getElementById('ping-table-body');
+            tableBody.innerHTML = ''; // Czyszczenie poprzednich danych
+            pingData.forEach(record => {
+                const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td>${stat.target}</td>
-                    <td>${stat.avg_time.toFixed(2)} ms</td>
-                    <td>${stat.min_time.toFixed(2)} ms</td>
-                    <td>${stat.max_time.toFixed(2)} ms</td>
+                    <td>${record.timestamp}</td>
+                    <td>${record.target}</td>
+                    <td>${record.response_time === -1 ? "Timeout" : record.response_time.toFixed(2)}</td>
                 `;
-                table.appendChild(row);
+                tableBody.appendChild(row);
             });
-        });
+        }
+
+        // Odświeżanie danych co 60 sekund
+        setInterval(fetchPingData, 60000);
+
+        // Pobierz dane przy załadowaniu strony
+        fetchPingData();
     </script>
 </body>
 </html>
