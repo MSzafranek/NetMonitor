@@ -29,6 +29,8 @@ def save_ping_result(target, response_time):
     conn.close()
 
 
+
+
 def get_ping_stats():
     conn = sqlite3.connect("network_monitor.db")
     c = conn.cursor()

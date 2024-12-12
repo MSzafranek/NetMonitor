@@ -24,7 +24,6 @@
     <table>
         <thead>
             <tr>
-                <th>Timestamp</th>
                 <th>Target</th>
                 <th>Response Time (ms)</th>
             </tr>
@@ -49,7 +48,8 @@
             try {
                 const response = await fetch('/api/stats');
                 const data = await response.json();
-                updateTable(data.ping_data);
+                console.log(data);
+                updateTable(data);
             } catch (error) {
                 console.error('Błąd podczas pobierania danych:', error);
             }
@@ -62,9 +62,9 @@
             pingData.forEach(record => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td>${record.timestamp}</td>
+                    <td></td>
                     <td>${record.target}</td>
-                    <td>${record.response_time === -1 ? "Timeout" : record.response_time.toFixed(2)}</td>
+                    <td>${record.avg_time === -1 ? "Timeout" : record.avg_time.toFixed(2)}</td>
                 `;
                 tableBody.appendChild(row);
             });

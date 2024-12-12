@@ -7,3 +7,7 @@ def ping_addresses():
         response_time = ping(address)
         results[target_name] = response_time if response_time is not None else -1
     return results
+
+
+if __name__ == "__main__":
+    print(ping_addresses())
