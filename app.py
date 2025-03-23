@@ -1,5 +1,8 @@
 import sys
 from pathlib import Path
+
+from NetMonitor.monitor import monitor_network
+
 sys.path.append(str(Path(__file__).parent))
 from flask import Flask, render_template, jsonify
 from ping_module import ping_addresses

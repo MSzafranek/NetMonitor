@@ -6,7 +6,13 @@ def monitor_network(interval=5):
     while True:
         results = ping_addresses()
         for target_name, response_time in results.items():
+            print(f"{time.strftime('%Y-%m-%d %H:%M:%S')} - {target_name}: {response_time} ms")
             save_ping_result(target_name, response_time)
+        time.sleep(interval)
+   # while True:
+    #    results = ping_addresses()
+      #  for target_name, response_time in results.items():
+     #       save_ping_result(target_name, response_time)
         # timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
         # ping_data = [
         #     {"target": target, "response_time": response_time, "timestamp": timestamp}
