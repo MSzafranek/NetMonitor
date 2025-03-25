@@ -1,1 +1,5 @@
-.config/.coveragerc
+[report]
+exclude_lines =
+    pragma: no cover
+    if TYPE_CHECKING:
+    return NotImplemented
