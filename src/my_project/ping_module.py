@@ -1,7 +1,12 @@
 from ping3 import ping
 
 
-def ping_addresses():
+def ping_addresses() -> dict[str, int]:
+    """
+    _summary_.
+
+    :return: _description_
+    """
     targets = {'internet': '8.8.8.8', 'gateway': '192.168.0.1'}
     results = {}
     for target_name, address in targets.items():

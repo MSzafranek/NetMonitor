@@ -1,4 +1,5 @@
 import sqlite3
+from typing import Any
 
 
 def init_db() -> None:
@@ -21,7 +22,13 @@ def init_db() -> None:
     conn.close()
 
 
-def save_ping_result(target, response_time) -> None:
+def save_ping_result(target: int, response_time: int) -> None:
+    """
+    _summary_.
+    :param target: _description_
+    :type target: int
+    :param response_time: _description_.
+    """  # noqa: D205
     conn = sqlite3.connect('network_monitor.db')
     c = conn.cursor()
     c.execute('INSERT INTO pings (target, response_time) VALUES (?, ?)', (target, response_time))
@@ -29,7 +36,7 @@ def save_ping_result(target, response_time) -> None:
     conn.close()
 
 
-def get_ping_stats():
+def get_ping_stats()-> list[dict[str, Any]]:  # noqa: D103
     conn = sqlite3.connect('network_monitor.db')
     c = conn.cursor()
     c.execute("""
