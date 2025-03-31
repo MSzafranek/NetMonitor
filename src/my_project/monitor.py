@@ -1,14 +1,14 @@
 import time
 
-from db_module import save_ping_result
-from ping_module import ping_addresses
+from my_project.db_module import save_ping_result
+from my_project.ping_module import ping_addresses
 
 
 def monitor_network(interval: int = 5) -> None:
     """
-    _summary_.
+    Monitoruj sieć i zapisuj wyniki ping do bazy danych.
 
-    :param interval: _description_, defaults to 5
+    :param interval: co ile sekund wykonywać ping
     """
     while True:
         results = ping_addresses()

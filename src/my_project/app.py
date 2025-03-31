@@ -1,14 +1,15 @@
 import sys
 from pathlib import Path
 
-from NetMonitor.monitor import monitor_network
+from my_project.monitor import monitor_network
 
 
 sys.path.append(str(Path(__file__).parent))
 import threading
 
-from db_module import get_ping_stats
 from flask import Flask, jsonify, render_template, Response
+
+from my_project.db_module import get_ping_stats
 
 
 app = Flask(__name__)
