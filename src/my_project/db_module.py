@@ -22,13 +22,13 @@ def init_db() -> None:
     conn.close()
 
 
-def save_ping_result(target: int, response_time: int) -> None:
+def save_ping_result(target: str, response_time: int) -> None:
     """
-    _summary_.
-    :param target: _description_
-    :type target: int
-    :param response_time: _description_.
-    """  # noqa: D205
+    Wpisz wynik ping do bazy danych.
+
+    :param target: pingowany adres
+    :param response_time: czas odpowiedzi w milisekundach
+    """
     conn = sqlite3.connect('network_monitor.db')
     c = conn.cursor()
     c.execute('INSERT INTO pings (target, response_time) VALUES (?, ?)', (target, response_time))
@@ -36,7 +36,12 @@ def save_ping_result(target: int, response_time: int) -> None:
     conn.close()
 
 
-def get_ping_stats()-> list[dict[str, Any]]:  # noqa: D103
+def get_ping_stats() -> list[dict[str, Any]]:
+    """
+    Pobierz statystyki ping z bazy danych.
+
+    :return: lista słowników zawierających statystyki ping
+    """
     conn = sqlite3.connect('network_monitor.db')
     c = conn.cursor()
     c.execute("""
